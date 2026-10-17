@@ -8,6 +8,8 @@ node_modules/
 .codex/
 .claude/settings.local.json
 coverage/
+native/target/
+dist/
 *.log
 *.pem
 *.key

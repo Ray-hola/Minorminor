@@ -843,3 +843,8 @@ dialog[open]{animation:mm-fade 120ms steps(3) both}
 .ai-summary-output{white-space:pre-wrap;line-height:1.8}
 .summary-file-list{max-height:180px;overflow:auto;display:grid;gap:4px;margin:12px 0;overflow-wrap:anywhere;color:var(--ink-3)}
 .ai-summary-points{padding-left:20px;font-size:var(--fs-sm);line-height:1.7}
+
+.language-picker{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:12px;color:var(--muted,#777)}
+.language-picker select{min-width:0;flex:1;max-width:140px;padding:6px 8px;border:1px solid var(--border,#d6d2ca);border-radius:6px;background:transparent;color:inherit;font:inherit}
+html[lang="en"] .nav-item{font-size:13px}
+@media(max-width:820px){.sidebar .language-picker{display:block;padding:8px 4px}.sidebar .language-picker>span{display:none}.sidebar .language-picker select{display:block;width:50px;max-width:100%;padding:6px 2px;font-size:10px}}
