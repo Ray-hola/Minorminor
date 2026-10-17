@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Minorminor · 设计系统（现代浅色 × 等宽）</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+  /* 仅用于本说明页的排版骨架，不参与产品界面 */
+  .ds-wrap { max-width: 1080px; margin: 0 auto; padding: 48px 32px 96px; }
+  .ds-head { border-bottom: 1px solid var(--line-ink); padding-bottom: 24px; margin-bottom: 40px; }
+  .ds-head h1 { font-size: var(--fs-5xl); margin: 0 0 8px; }
+  .ds-head p { color: var(--ink-3); font-size: var(--fs-md); max-width: 62ch; }
+  .ds-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .ds-sec { margin-bottom: 56px; }
+  .ds-sec > h2 { font-size: var(--fs-xl); margin: 0 0 4px; display: flex; align-items: baseline; gap: 10px; }
+  .ds-sec > h2::before { content: "▍"; color: var(--accent); font-size: var(--fs-md); }
+  .ds-sec > .ds-lead { color: var(--ink-3); font-size: var(--fs-sm); margin: 0 0 20px; padding-left: 18px; }
+  .ds-grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .ds-grid3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  table.ds-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+  table.ds-table th, table.ds-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.ds-table th { font-weight: 500; color: var(--ink-3); font-size: var(--fs-2xs); letter-spacing: .1em; text-transform: uppercase; background: var(--surface-2); }
+  table.ds-table td b { font-weight: 600; }
+  .ds-num { font-variant-numeric: tabular-nums; color: var(--accent-strong); font-weight: 600; }
+  .ds-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  .ds-sw { border: 1px solid var(--line); }
+  .ds-sw i { display: block; height: 52px; border-bottom: 1px solid var(--line); }
+  .ds-sw div { padding: 8px 10px; font-size: var(--fs-2xs); line-height: 1.5; }
+  .ds-sw code { color: var(--ink-3); }
+  .ds-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .ds-demo { padding: 20px; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--px); }
+  .ds-cap { font-size: var(--fs-2xs); color: var(--ink-3); margin: 0 0 10px; letter-spacing: .06em; }
+  .ds-ladder > div { border: 1px solid var(--line); background: var(--surface); padding: 12px 16px; margin-bottom: 10px; }
+  .ds-ladder > div.l2 { box-shadow: var(--px); }
+  .ds-ladder > div.l3 { border-color: var(--line-ink); box-shadow: var(--px-lg); }
+  pre.ds-code { background: var(--term-bg); color: var(--term-ink); border: 1px solid var(--term-line);
+    padding: 16px; overflow-x: auto; font-size: var(--fs-xs); line-height: 1.7; margin: 0; }
+  .ds-note { border-left: 2px solid var(--accent); padding: 4px 0 4px 14px; color: var(--ink-2); font-size: var(--fs-sm); margin: 16px 0 0; }
+  .ds-span { grid-column: 1 / -1; }
+  .ds-old { border: 1px solid var(--line); background: var(--surface-2); padding: 16px; }
+
+  .ds-table th:first-child, .ds-table td:first-child{width:1px;white-space:nowrap;padding-right:20px}
+  .ds-table{width:100%}
+</style>
+</head>
+<body>
+<div class="ds-wrap">
+
+  <header class="ds-head">
+    <h1>Minorminor 设计系统</h1>
+    <p>纸张 × 像素 × 字符。米白纸面加极弱颗粒，雾灰墨色做强调，不用绿色；直角、1px 描边、硬边投影像纸片叠放；虚线分隔、<code>#</code> / <code>▸</code> / <code>$</code> 等字符做标记；动效只有打字机与阶梯显影。全站等宽字体，只在终端区域反色。本页直接引用 <code>public/style.css</code>，所见即产品实际样式。下方「本轮调整」之后的章节保留为历史记录。</p>
+    <div class="ds-meta">
+      <span class="quiet-tag">v0.1.0 改版</span>
+      <span class="quiet-tag">IBM Plex Mono</span>
+      <span class="quiet-tag">纸面 · 雾灰墨色</span>
+      <span class="quiet-tag">6 个页面</span>
+    </div>
+  </header>
+
+  <section class="ds-sec">
+    <h2 id="round5">本轮调整 · 纸张感、雾灰配色、打字机动效、新 logo</h2>
+    <table class="ds-table">
+      <thead><tr><th>范围</th><th>改动</th></tr></thead>
+      <tbody>
+        <tr><td>配色</td><td>去掉品牌绿。纸面 <code>--bg #E9E6DF</code> / <code>--surface #F7F5F0</code>，墨色 <code>--ink #2A2C2F</code>，强调改为雾灰 <code>--accent #5B636C</code> / <code>--accent-strong #3A4047</code>。语义色降低彩度，像褪色印泥：警示 <code>#8A6A30</code>、危险 <code>#93473A</code>、信息 <code>#56677A</code>。分类色带与 treemap 改为雾灰 / 灰褐 / 灰紫 / 灰蓝的低彩度色阶。</td></tr>
+        <tr><td>纸张感</td><td>页面底叠一层 SVG 噪点颗粒；面板是「纸片」：细描边 + 2px 硬投影，弹窗 4px；侧栏选中项像压在纸上的标签。</td></tr>
+        <tr><td>像素 × 字符</td><td>圆角全部收回到 2px；复选框为方块、勾选填实心小方块；进度条与分析条切成 6px 格子，扫描进度按格跳动；磁盘环改为刻度表盘。区块标题前缀 <code>#</code>，导航选中 <code>▸</code>，路径前缀 <code>$ cd</code>，命令前缀 <code>$</code>，提示前缀 <code>&gt;</code>，空状态用 <code>[ ]</code> 括起；行分隔改为虚线；文字按钮改为点状下划线。</td></tr>
+        <tr><td>动效</td><td>去掉淡入上移和所有缓动曲线。切换页面时，页面标题与各区块标题依次逐字打出（38ms/字，带方块光标）；区块按 3 档阶梯显影；按钮按下连同投影一起压下 1px。</td></tr>
+        <tr><td>Logo</td><td><code>public/icon.svg</code> 是对折的「- -」：深雾灰底上一张印着「- -」的纸卡，右半边沿中线向后折过去一个角度——左半正对受光，右半透视变窄、背光，中线是折痕，纸卡留一道硬投影。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="round4">上一轮 · 现代浅色配色与版式整理（配色与形状已被本轮替换，版式保留）</h2>
+    <table class="ds-table">
+      <thead><tr><th>范围</th><th>改动</th></tr></thead>
+      <tbody>
+        <tr><td>字号</td><td>基准正文 15px → 14px，页面标题 36px → 26px，区块标题 15–16px，说明文字 12–12.5px，统计数字 18–22px；数字统一等宽对齐。</td></tr>
+        <tr><td>排版</td><td>侧栏收窄并修正「Mole 引擎」折行。磁盘卡改为「圆环 | 图例」两栏，统计条拆成三张独立卡片。清单行统一为「名称在上、路径与原因在下、大小靠右」两行结构；项目行的路径、占用标签、说明与名称左对齐，「项目详情」按钮与说明同行靠右。Mole 命令恢复为 4 列卡片。弹窗操作区加分隔线。</td></tr>
+        <tr><td>样式表</td><td>原先「归一化 + 像素层 + 紧凑列表层 + 修订层（A–AH）」四层互相覆盖的 1608 行，合并为按模块组织的单层样式表，删除不再渲染的类（旧 hero 插画、topbar、tip-panel 等）。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="round3">本轮调整 · 文字与大面积去色</h2>
+    <table class="ds-table">
+      <thead><tr><th>范围</th><th>改动</th></tr></thead>
+      <tbody>
+        <tr><td>文字</td><td><b>114 处带色文字全部落到灰阶</b>。强调文字、需审阅、危险提示不再借用色相，改由<b>字重</b>承担语义：正文 400 · 强调与需审阅 500 · 危险 600。原先靠红色传递的「危险」，现在是最深的 <code>#141414</code> 加左侧 3px 实心重条；「需审阅」是浅一档的 <code>--ink-2</code> 加虚线框——两者在形态上就能分开，不依赖颜色。</td></tr>
+        <tr><td>大面积背景</td><td>页面底、面板、行、悬停面、选中底、终端底全部为纯中性灰，去掉此前的黄绿色偏（<code>#F4F4F2</code> → <code>#F4F4F4</code>、<code>#D8D8D4</code> → <code>#D8D8D8</code> 等）。主按钮与 hero 由「深绿实心」改为近黑实心，白字；磁盘环改由近黑扇形 + 浅灰轨道组成。</td></tr>
+        <tr><td>数据可视化</td><td>磁盘分析页的目录行原有一套 7 色循环调色板（<code>lib/scanner.mjs</code> 的 <code>rowColors</code>，染在图标底板与进度条上），已收敛为<b>单一深灰</b>——行的区分交给进度条长度与右侧数字。treemap 与分类色带（tone 0–5）为灰阶，按明度编码体积，每块自动切黑白文字。</td></tr>
+        <tr><td>剩余彩色</td><td>全站仅剩一处：侧栏顶部的品牌标识 <code>#285C48</code>。像素级扫描确认其余区域彩度为零。</td></tr>
+      </tbody>
+    </table>
+    <p class="ds-note">验证方式：对每一页的渲染截图做逐像素彩度扫描（取 <code>max(r,g,b) − min(r,g,b) &gt; 28</code> 为彩色像素），总览 / 空间清理 / AI 专项 / 磁盘分析 / AI 判读 / Mole 引擎六页的彩色像素簇均只落在侧栏 logo 上。</p>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="round2">本轮调整 · 黑白灰 / 放大字号 / 紧凑列表</h2>
+    <table class="ds-table">
+      <thead><tr><th>方向</th><th>改动</th></tr></thead>
+      <tbody>
+        <tr><td>配色</td><td>大面积改为纯中性灰阶：<code>--bg #F4F4F2</code>、<code>--surface-2 #F0F0EE</code>、<code>--surface-3 #E4E4E1</code>、<code>--line #D8D8D4</code>、<code>--ink #141517</code>，去掉此前象牙底与描边里的黄绿色偏。彩色只保留三处小面积——强调色、需审阅、危险。分类色带 tone 0–5 由绿阶换成灰阶（<code>#EFEFED→#6E6E68</code>），磁盘占比 treemap 同样灰阶化，并按块的明暗自动切换黑/白文字。</td></tr>
+        <tr><td>字号</td><td>基准正文 <b>11px → 15px</b>，整体上抬一档：标签 12 · 副标签 13 · 按钮 14 · 正文 15 · 条目 17 · 小节 19 · 统计 22 · 区块 26 · 页面标题 36。修正了上一轮 278 处字号未落到 token 的问题，现在全局只剩 10 级字号变量。</td></tr>
+        <tr><td>布局</td><td>大卡片全部改为紧凑列表：项目、AI 工具、本地模型、Mole 命令、清理候选、清理记录、AI 建议都是单行条目——图标与名称在左，等宽等宽数字右对齐，行高 30px 上下。项目与文件浏览器支持逐层缩进展开：项目 → 目录 → 文件 → 元数据，左侧用 1px 引导线表示层级。</td></tr>
+      </tbody>
+    </table>
+    <p class="ds-note">行内数字统一 <code>font-variant-numeric: tabular-nums</code>，同一列的容量、文件数、时间戳能纵向对齐比对——这也是文件管理器读起来更省力的原因。</p>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="before">改版前的 UI 结构清单</h2>
+    <p class="ds-lead">盘点对象：<code>public/index.html</code> + <code>public/app.js</code> 渲染的全部界面 + <code>public/style.css</code> 的 981 条规则 / 1035 个选择器 / 216 个组件类。</p>
+
+    <h3 style="font-size:var(--fs-md);margin:0 0 8px">页面（6 个路由 + 5 个全局层）</h3>
+    <table class="ds-table" style="margin-bottom:24px">
+      <thead><tr><th>路由</th><th>页面</th><th>主要区块</th></tr></thead>
+      <tbody>
+        <tr><td><code>overview</code></td><td>总览</td><td>扫描入口 hero、磁盘空间环、三格统计条、文件分类列表、引擎提示条</td></tr>
+        <tr><td><code>clean</code></td><td>空间清理</td><td>可视化清理头、类别筛选 chips、空间地图、清单工具条与搜索、候选行、分页、选择栏、执行回执</td></tr>
+        <tr><td><code>ai</code></td><td>AI 专项</td><td>工具发现网格、占用详情折叠面板、Agent 目录/缓存/日志清单、按项目查看、Ollama 模型、AI 判读表单与建议列表</td></tr>
+        <tr><td><code>analyze</code></td><td>磁盘分析</td><td>扫描范围控制、后台进度、一级目录占用条、读取错误分页、文件夹大小、文件浏览器</td></tr>
+        <tr><td><code>assistant</code></td><td>AI 判读</td><td>介绍卡、建议网格、规则标签、命令输出与终端</td></tr>
+        <tr><td><code>mole</code></td><td>Mole 引擎</td><td>引擎信息、4 张命令卡、终端面板与状态栏</td></tr>
+        <tr><td>全局层</td><td>—</td><td>侧边栏导航、设置对话框、toast、错误条、任务进度条、页面标题</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:var(--fs-md);margin:0 0 8px">组件分组（216 个 class）</h3>
+    <table class="ds-table" style="margin-bottom:24px">
+      <thead><tr><th>分组</th><th>代表类名</th></tr></thead>
+      <tbody>
+        <tr><td>布局与导航</td><td><code>sidebar brand nav-item nav-divider workspace topbar breadcrumbs</code></td></tr>
+        <tr><td>面板与卡片</td><td><code>panel storage-card tip-panel advice-card command-card scan-controls-panel</code></td></tr>
+        <tr><td>列表与行</td><td><code>category-row analysis-row file-row inventory-row-heading receipt-items</code></td></tr>
+        <tr><td>表单控件</td><td><code>scope-select clean-search inventory-controls ai-config-form input[type=checkbox]</code></td></tr>
+        <tr><td>按钮</td><td><code>btn / .primary / .secondary / .text, text-button, icon-button, setting-button</code></td></tr>
+        <tr><td>标签与徽标</td><td><code>quiet-tag nav-tag count-badge device-chip advice-decision inventory-status</code></td></tr>
+        <tr><td>进度与图表</td><td><code>task-track background-progress disk-ring treemap clean-space-map map-segment tone-0..5</code></td></tr>
+        <tr><td>终端</td><td><code>terminal-panel terminal-top terminal-output terminal-bottom cursor mole-review-output</code></td></tr>
+        <tr><td>反馈层</td><td><code>dialog toast error-banner notice empty-state selection-bar</code></td></tr>
+        <tr><td>AI 专项</td><td><code>agent-discovery agent-coverage-list agent-evidence-list ai-tool-grid ai-advice-items</code></td></tr>
+        <tr><td>Agent 清单与项目</td><td><code>agent-inventory inventory-controls project-grid project-buckets project-plan-rows</code></td></tr>
+        <tr><td>文件浏览器</td><td><code>project-file-explorer file-modes file-breadcrumbs file-entry file-directory-row</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:var(--fs-md);margin:0 0 8px">设计要素盘点（实测）</h3>
+    <table class="ds-table" style="margin-bottom:24px">
+      <thead><tr><th>要素</th><th>现状</th></tr></thead>
+      <tbody>
+        <tr><td>配色</td><td>429 个硬编码色值。主色 <code>#285c48</code>，但同族浅色有 30 种以上近似值（<code>#edf1e7 / #edf4e7 / #e6eddd / #e1e8da</code> …）；另有橄榄 <code>#5b7b48</code>、琥珀 <code>#a08248</code>、灰绿 <code>#709781</code> 三种语义色互相串用，仅 3 个 CSS 变量</td></tr>
+        <tr><td>字体</td><td><code>-apple-system / SF Pro / PingFang SC</code> 全局系统字体；等宽字体只在 7 处临时声明 <code>ui-monospace</code>（终端、路径、命令行）</td></tr>
+        <tr><td>字号</td><td>26 种取值，其中 9px 出现 53 次、10px 出现 98 次、11px 出现 123 次——正文实际长期停在 9–11px</td></tr>
+        <tr><td>间距</td><td>188 种取值，13px / 15px / 17px / 18px 等非刻度值大量并存</td></tr>
+        <tr><td>圆角</td><td>19 种：3 / 4 / 5 / 6 / 7 / 8 / 9 / 10 / 11 / 15 / 16 / 24px，另有 <code>50%</code> 与 <code>80% 0 80% 0</code></td></tr>
+        <tr><td>边框</td><td>37 种简写；1px 实线为主，但描边色有 10 种以上近似灰绿（<code>#e6eae5 / #e1e8da / #e6ecdf / #e7ecdf / #dce6d3 / #e4e9e3 / #e0e6df</code> …）</td></tr>
+        <tr><td>阴影</td><td>5 种软阴影，模糊半径从 3px 到 100px，层级含义不明确</td></tr>
+        <tr><td>动效</td><td>6 条 <code>transition</code>，时长只有 .15s / .2s / .4s 三种且缓动各异；3 个 keyframes（spin / blink / scan）</td></tr>
+        <tr><td>响应式</td><td>8 个不统一的断点（580 / 760 / 820 / 900 / 1000 / 1100 / 1120 / 1450px），其中 580px 重复声明 14 次</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:var(--fs-md);margin:0 0 8px">不一致之处（按影响排序）</h3>
+    <table class="ds-table">
+      <thead><tr><th>#</th><th>问题</th><th>影响</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>样式表多轮追加覆盖，同一选择器最多重复 5 次</td><td>改一处颜色要在 5 个地方找；981 条规则里存在大量级联等价冗余</td></tr>
+        <tr><td>2</td><td>描边色 10 种以上近似灰绿混用</td><td>相邻卡片描边「看起来一样但不相等」，放大后出现断色差</td></tr>
+        <tr><td>3</td><td>9px / 10px 正文占比过高</td><td>中文在 9px 已接近不可读；信息密度靠压字号换来的</td></tr>
+        <tr><td>4</td><td>圆角没有策略</td><td>卡片 10px、按钮 7px、徽标 4px、输入 6px，圆角不承载任何层级含义</td></tr>
+        <tr><td>5</td><td>间距无刻度</td><td>13 / 15 / 17 / 18px 混排，视觉节奏靠手感维持</td></tr>
+        <tr><td>6</td><td>等宽字体只在终端局部出现</td><td>路径、字节数、时间戳在正文里与系统字体混排，数字不对齐</td></tr>
+        <tr><td>7</td><td>成功 / 警示 / 危险没有 token</td><td>同一语义在不同页面用不同色值，语义色被当成装饰色用</td></tr>
+        <tr><td>8</td><td>动效时长与缓动无统一</td><td>唯一降级手段是 <code>prefers-reduced-motion</code> 里的单条规则</td></tr>
+        <tr><td>9</td><td>焦点环 3px 实心绿</td><td>与 1px 描边体系冲突，键盘导航时视觉跳动明显</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="inventory">改版前后对照</h2>
+    <p class="ds-lead">原样式表经过多轮追加覆盖，同一选择器最多出现 5 次；数值全靠手写，缺少刻度。改版把散落数值收敛到 token。</p>
+    <table class="ds-table">
+      <thead><tr><th>设计要素</th><th>改版前</th><th>改版后</th><th>处理方式</th></tr></thead>
+      <tbody>
+        <tr><td>颜色值</td><td class="ds-num">429 种</td><td class="ds-num">14 个 token</td><td>按彩度区分「带绿味的灰」与品牌绿，全部收敛到中性阶 + 单一强调色</td></tr>
+        <tr><td>字号</td><td class="ds-num">26 种（最小 8px）</td><td class="ds-num">11 级</td><td>归一到 11–32px 刻度，取消 9px 以下正文</td></tr>
+        <tr><td>圆角</td><td class="ds-num">19 种</td><td class="ds-num">4 类</td><td>容器一律直角，小控件 2px，圆形指示器保留 50%</td></tr>
+        <tr><td>间距值</td><td class="ds-num">188 种</td><td class="ds-num">9 级 4px 刻度</td><td>所有 padding / margin / gap 吸附到 4px 网格</td></tr>
+        <tr><td>行高</td><td class="ds-num">12 种</td><td class="ds-num">3 档</td><td>1.4 / 1.5 / 1.6，正文 1.6</td></tr>
+        <tr><td>字重</td><td class="ds-num">8 种</td><td class="ds-num">4 档</td><td>400 / 500 / 600 / 700，与字体文件一一对应</td></tr>
+        <tr><td>字体族</td><td>系统 UI（-apple-system）</td><td>IBM Plex Mono + Sans</td><td>与 opencode.ai 同款，本地自托管，离线可用</td></tr>
+        <tr><td>阴影</td><td class="ds-num">5 种软阴影</td><td class="ds-num">3 级硬阴影</td><td>模糊阴影改为 2px 硬边偏移，形成像素厚度</td></tr>
+        <tr><td>动效</td><td class="ds-num">6 条过渡 · 3 个关键帧</td><td class="ds-num">3 档时长 · 5 个关键帧</td><td>统一缓动曲线；新增淡入上移与打字机</td></tr>
+        <tr><td>样式重复</td><td>981 条规则 / 1035 选择器</td><td>合并完全重复项</td><td>删除级联等价的重复声明，@media 同名块相邻合并</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="color">颜色</h2>
+    <p class="ds-lead">纸面三层（桌面底 → 纸张 → 折痕），墨色四级，强调只用雾灰暗调，不带绿。警示、危险、信息是低彩度的「褪色印泥」，只用于小面积状态提示。</p>
+    <div class="ds-swatches">
+      <div class="ds-sw"><i style="background:var(--bg)"></i><div><b>--bg</b><br><code>#E9E6DF</code> 桌面底（叠颗粒）</div></div>
+      <div class="ds-sw"><i style="background:var(--surface)"></i><div><b>--surface</b><br><code>#F7F5F0</code> 纸张 / 面板</div></div>
+      <div class="ds-sw"><i style="background:var(--surface-2)"></i><div><b>--surface-2</b><br><code>#F0EDE6</code> 悬停 / 侧栏 / 工具条</div></div>
+      <div class="ds-sw"><i style="background:var(--surface-3)"></i><div><b>--surface-3</b><br><code>#E3DFD6</code> 轨道 / 禁用</div></div>
+      <div class="ds-sw"><i style="background:var(--line)"></i><div><b>--line</b><br><code>#D6D1C6</code> 虚线分隔</div></div>
+      <div class="ds-sw"><i style="background:var(--line-strong)"></i><div><b>--line-strong</b><br><code>#BDB7AB</code> 纸片描边</div></div>
+      <div class="ds-sw"><i style="background:var(--ink)"></i><div><b>--ink</b><br><code>#2A2C2F</code> 正文 / 数字</div></div>
+      <div class="ds-sw"><i style="background:var(--ink-2)"></i><div><b>--ink-2</b><br><code>#4A4D51</code> 次要正文 / 进度格</div></div>
+      <div class="ds-sw"><i style="background:var(--ink-3)"></i><div><b>--ink-3</b><br><code>#75767A</code> 说明文字</div></div>
+      <div class="ds-sw"><i style="background:var(--ink-4)"></i><div><b>--ink-4</b><br><code>#A19E97</code> 占位 / 字符前缀</div></div>
+      <div class="ds-sw"><i style="background:var(--accent)"></i><div><b>--accent</b><br><code>#5B636C</code> 雾灰</div></div>
+      <div class="ds-sw"><i style="background:var(--accent-strong)"></i><div><b>--accent-strong</b><br><code>#3A4047</code> 主按钮 / logo 底</div></div>
+      <div class="ds-sw"><i style="background:var(--accent-soft)"></i><div><b>--accent-soft</b><br><code>#E2E1DC</code> 选中底</div></div>
+      <div class="ds-sw"><i style="background:var(--warn)"></i><div><b>--warn</b><br><code>#8A6A30</code> 需审阅 / 警示</div></div>
+      <div class="ds-sw"><i style="background:var(--danger)"></i><div><b>--danger</b><br><code>#93473A</code> 危险 / 错误</div></div>
+      <div class="ds-sw"><i style="background:var(--info)"></i><div><b>--info</b><br><code>#56677A</code> 信息 / 保护</div></div>
+      <div class="ds-sw"><i style="background:var(--term-bg)"></i><div><b>--term-bg</b><br><code>#25282C</code> 终端底</div></div>
+      <div class="ds-sw"><i style="background:linear-gradient(90deg,#3A4047 0 16.6%,#5B636C 0 33.3%,#7B7468 0 50%,#6D6478 0 66.6%,#56677A 0 83.3%,#9A968D 0)"></i><div><b>tone 0–5</b><br>分类色带 / treemap</div></div>
+    </div>
+    <p class="ds-note">中文由 <code>PingFang SC</code> 兜底（IBM Plex 无 CJK 字形），拉丁字母与数字走 IBM Plex Mono——所以界面里的路径、字节数、时间戳天然对齐。这一点与 opencode.ai 的处理方式一致。</p>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="type">字体与字号</h2>
+    <p class="ds-lead">全站等宽，只保留一个字体变量。等宽字体字面偏宽，基准正文取 14px；字号只走 10 级 token。</p>
+    <div class="ds-demo ds-span">
+      <p class="ds-cap">字号刻度（--fs-2xs → --fs-5xl）</p>
+      <div style="font-size:var(--fs-2xs)">12px · --fs-2xs · 路径 / 元信息 · ~/Library/Caches</div>
+      <div style="font-size:var(--fs-xs)">12.5px · --fs-xs · 说明文字 / 小号按钮 · 3,790,587 个文件</div>
+      <div style="font-size:var(--fs-sm)">13px · --fs-sm · 按钮 / 弹窗正文 · 216.5 GB</div>
+      <div style="font-size:var(--fs-md)">14px · --fs-md · 基准正文 / 条目名称 · 启动磁盘数据卷</div>
+      <div style="font-size:var(--fs-lg)">15px · --fs-lg · 面板标题 / 项目名 · 按项目清理</div>
+      <div style="font-size:var(--fs-xl)">16px · --fs-xl · 区块标题 · 可视化清理</div>
+      <div style="font-size:var(--fs-2xl)">18px · --fs-2xl · 统计数字 · 245.1 GB</div>
+      <div style="font-size:var(--fs-3xl)">20px · --fs-3xl · 汇总数字 / 弹窗标题 · 1.8 GB</div>
+      <div style="font-size:var(--fs-5xl)">26px · --fs-5xl · 页面标题 · 空间清理</div>
+    </div>
+    <pre class="ds-code">--font-mono: "IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,"PingFang SC",monospace;
+--font-sans: var(--font-mono);   /* 无衬线即等宽 */
+font-variant-ligatures: none;    /* 关掉连字，保持字符逐个可数 */</pre>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="shape">边框、圆角与高度层级</h2>
+    <p class="ds-lead">三级高度，像纸片叠在桌上：面用虚线分隔，面板是一张纸（细描边 + 2px 硬投影），弹窗是压在上面的厚纸（墨线 + 4px 硬投影）。</p>
+    <div class="ds-ladder">
+      <div>L1 · 工具条 / 次级面 — <code>var(--surface-2)</code> 底 + 虚线分隔，无投影。</div>
+      <div class="l2">L2 · 面板 / 卡片 — <code>1px var(--line-strong)</code> + <code>2px 2px 0</code> 硬投影。</div>
+      <div class="l3">L3 · 弹窗 — <code>1px var(--ink-2)</code> + <code>4px 4px 0</code> 硬投影，背后半透明墨色遮罩，不模糊。</div>
+    </div>
+    <pre class="ds-code">--r-sm / --r / --r-lg / --r-pill: 2px;   /* 一律直角，2px 只为防锯齿 */
+--px-sm: 1px 1px 0 rgba(42,44,47,.12);   /* 按钮、标签 */
+--px:    2px 2px 0 rgba(42,44,47,.12);   /* 面板、卡片 */
+--px-lg: 4px 4px 0 rgba(42,44,47,.18);   /* 弹窗、终端 */</pre>
+    <p class="ds-note">按钮按下时下移 1px；键盘焦点统一为 3px 半透明墨绿光圈（<code>--focus-ring</code>）。</p>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="spacing">间距刻度</h2>
+    <p class="ds-lead">4px 基准，8px 为主节奏。所有 padding / margin / gap 已吸附到刻度，不再出现 13px、15px、18px 这类随手值。</p>
+    <div class="ds-grid3">
+      <div class="ds-demo"><p class="ds-cap">--s-1 · 4px</p><div style="height:4px;background:var(--accent)"></div></div>
+      <div class="ds-demo"><p class="ds-cap">--s-2 · 8px</p><div style="height:8px;background:var(--accent)"></div></div>
+      <div class="ds-demo"><p class="ds-cap">--s-3 · 12px</p><div style="height:12px;background:var(--accent)"></div></div>
+      <div class="ds-demo"><p class="ds-cap">--s-4 · 16px</p><div style="height:16px;background:var(--accent)"></div></div>
+      <div class="ds-demo"><p class="ds-cap">--s-5 · 20px</p><div style="height:20px;background:var(--accent)"></div></div>
+      <div class="ds-demo"><p class="ds-cap">--s-6 · 24px</p><div style="height:24px;background:var(--accent)"></div></div>
+      <div class="ds-demo"><p class="ds-cap">--s-8 · 32px</p><div style="height:32px;background:var(--accent)"></div></div>
+    </div>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="components">组件样例</h2>
+    <p class="ds-lead">下面全部使用产品样式表中的真实类名，改样式即改产品。</p>
+    <div class="ds-grid2" style="margin-bottom:16px">
+      <div class="ds-demo">
+        <p class="ds-cap">按钮</p>
+        <div class="ds-row">
+          <button class="btn primary">重新扫描</button>
+          <button class="btn secondary">取消</button>
+          <button class="btn">普通</button>
+          <button class="btn text">查看文件</button>
+          <button class="btn" disabled>不可用</button>
+        </div>
+      </div>
+      <div class="ds-demo">
+        <p class="ds-cap">表单</p>
+        <div class="ds-row" style="margin-bottom:10px">
+          <input type="checkbox" checked id="c1" /><label for="c1" style="font-size:13px">应用缓存</label>
+          <input type="checkbox" id="c2" /><label for="c2" style="font-size:13px">历史日志</label>
+        </div>
+        <div class="ds-row">
+          <select><option>启动磁盘数据卷</option></select>
+          <input placeholder="搜索清理文件" style="flex:1;min-width:120px" />
+        </div>
+      </div>
+      <div class="ds-demo">
+        <p class="ds-cap">标签与徽标</p>
+        <div class="ds-row">
+          <span class="quiet-tag">已确认</span>
+          <span class="nav-tag">CLI</span>
+          <span class="count-badge">42</span>
+          <span class="inventory-status ready">可清理</span>
+          <span class="inventory-status protected">已保护</span>
+          <span class="advice-decision consider">需要审阅</span>
+        </div>
+      </div>
+      <div class="ds-demo">
+        <p class="ds-cap">卡片与列表行</p>
+        <div class="category-row" style="padding:10px 8px">
+          <span class="category-text"><strong>应用缓存</strong><span>10,488 个文件 · 部分统计</span></span>
+          <span class="category-size">1.3 GB</span>
+        </div>
+        <div class="category-row" style="padding:10px 8px;box-shadow:inset 2px 0 0 var(--accent)">
+          <span class="category-text"><strong>下载的安装包</strong><span>642 个文件</span></span>
+          <span class="category-size">232.9 MB</span>
+        </div>
+      </div>
+      <div class="ds-demo">
+        <p class="ds-cap">进度条</p>
+        <div class="task-track" style="position:relative;height:6px"><i style="width:62%"></i></div>
+        <p class="ds-cap" style="margin-top:14px">分析条</p>
+        <div class="analysis-bar"><i style="width:38%;background:var(--accent)"></i></div>
+        <p class="ds-note" style="margin-top:12px">6px 墨色格子 + 2px 空隙，轨道用 <code>--surface-3</code>。</p>
+      </div>
+      <div class="ds-demo">
+        <p class="ds-cap">提示条</p>
+        <div class="error-banner" style="margin-bottom:8px">扫描中断，请重新连接。</div>
+        <div class="clean-plan-warning">永久删除无法撤回，请核对清单。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="terminal">终端区域</h2>
+    <p class="ds-lead">整站唯一深色区块：三个灰阶方块窗口按钮、<code>$</code> 提示符、方块光标。</p>
+    <div class="terminal-panel">
+      <div class="terminal-top"><span><i></i><i></i><i></i><strong>Mole / terminal</strong></span><div><span class="terminal-status">等待运行</span></div></div>
+      <pre class="terminal-output" style="min-height:180px;max-height:180px">$ mo clean --dry-run
+
+  扫描用户级缓存与日志 …
+  可清理 12 项 · 约 1.8 GB
+  已保护 3 项（活动应用正在使用）
+<span class="cursor"> </span></pre>
+    </div>
+    <pre class="ds-code">.terminal-top strong::before { content:"$ "; color:var(--term-accent); }
+.cursor { display:inline-block; width:7px; height:1em; background:var(--term-accent);
+          animation: blink 1.1s step-end infinite; }   /* 方块光标 */</pre>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="motion">动效</h2>
+    <p class="ds-lead">只保留打字机。没有位移、没有缓动曲线，颜色反馈 90ms 线性；其余都是一格一格的「步进」。</p>
+    <table class="ds-table">
+      <thead><tr><th>场景</th><th>时长</th><th>实现</th></tr></thead>
+      <tbody>
+        <tr><td>标题打字机</td><td class="ds-num">38ms / 字</td><td>页面标题、区块标题、空状态标题依次开打（间隔 90ms），方块光标随字前进，只在切换页面时触发</td></tr>
+        <tr><td>区块显影</td><td class="ds-num">160ms · 3 档</td><td><code>.mm-enter</code>：<code>steps(3)</code> 透明度阶梯，不移动</td></tr>
+        <tr><td>按钮按下</td><td class="ds-num">即时</td><td>连同硬投影一起压下 1px（<code>translate(1px,1px)</code> + 撤掉投影）</td></tr>
+        <tr><td>扫描进度</td><td class="ds-num">2.4s · 16 格</td><td>6px 格子按 <code>steps(16)</code> 跳动前进；转圈图标 <code>steps(8)</code></td></tr>
+        <tr><td>悬停变色</td><td class="ds-num">90ms</td><td><code>--t-fast</code>，线性</td></tr>
+      </tbody>
+    </table>
+    <div class="ds-demo ds-span" style="margin-top:16px">
+      <p class="ds-cap">打字机 / 显影（点击重播）</p>
+      <div class="ds-row" style="margin-bottom:12px">
+        <button class="btn secondary" id="replay">重播</button>
+      </div>
+      <h2 id="typer" style="font-size:24px;margin:0 0 16px">空间清理</h2>
+      <div class="mm-enter panel" style="padding:16px;font-size:13px;color:var(--ink-2)">这是一块按 3 档阶梯显影的区块。</div>
+    </div>
+    <p class="ds-note">高频重渲染（扫描进度流式刷新）走 600ms 节流，跳过动画且事后不补，避免界面持续抖动。<code>prefers-reduced-motion: reduce</code> 下全部关闭。</p>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="interaction">交互与操作动线</h2>
+    <p class="ds-lead">改版顺带修掉的动线问题，全部由 CSS 完成，未改动 <code>app.js</code> 的任何逻辑。</p>
+    <table class="ds-table">
+      <thead><tr><th>问题</th><th>处理</th></tr></thead>
+      <tbody>
+        <tr><td>复选框是系统默认样式，勾选态在深色行里几乎看不见</td><td>16px 像素方块：纸面细边 → 勾选后中间填 8px 墨色实心方块</td></tr>
+        <tr><td>选中文件后「审阅 / 整理」按钮随内容滚出视口</td><td><code>.selection-bar</code> 吸底（<code>position:sticky; bottom:0</code>）</td></tr>
+        <tr><td>列表行只有背景微变，鼠标难以锁定当前行</td><td>悬停整行变 <code>--surface-2</code>，行尾箭头变成墨色</td></tr>
+        <tr><td>图标按钮点击区只有图标大小</td><td><code>.icon-button</code> 最小 32×32</td></tr>
+        <tr><td>键盘焦点环与描边风格冲突</td><td>按钮 / 输入框用「纸面 2px + 墨线 1px」双层描边，其余元素 2px 实线、偏移 2px</td></tr>
+        <tr><td>警告色和危险色在多个页面各写各的</td><td>收敛到 warn / danger 两组 token，语义固定</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="ds-sec">
+    <h2 id="files">落地清单</h2>
+    <table class="ds-table">
+      <thead><tr><th>文件</th><th>改动</th></tr></thead>
+      <tbody>
+        <tr><td><code>public/style.css</code></td><td>按模块组织的单层样式表（设计变量 → 基础 → 布局 → 组件 → 各页面 → 弹窗 → 动效 → 响应式），纸张 × 像素 × 字符视觉</td></tr>
+        <tr><td><code>public/app.js</code></td><td>treemap 改为雾灰低彩度色阶；磁盘分析行不再使用后端下发的行颜色，图标与占用条统一由样式表着色（仅展示层）</td></tr>
+        <tr><td><code>public/motion.js</code></td><td>页面 / 区块标题依次打字机 + 区块阶梯显影，MutationObserver 驱动，节流并支持动效降级</td></tr>
+        <tr><td><code>public/icon.svg</code></td><td>新 logo：立体折叠的「- -」</td></tr>
+        <tr><td><code>public/fonts/</code></td><td>新增。IBM Plex Mono / Sans 400·500·600·700，woff2 本地自托管（SIL OFL 1.1），共 8 个文件约 150 KB</td></tr>
+        <tr><td><code>public/index.html</code></td><td>引入 motion.js，预加载三档字重，theme-color 同步为纸面底色</td></tr>
+        <tr><td><code>server.mjs</code></td><td>静态白名单新增 <code>/motion.js</code> 与 <code>/fonts/*.woff2</code>（正则限定扩展名）</td></tr>
+      </tbody>
+    </table>
+    <p class="ds-note">回滚：恢复 <code>public/style.css</code>、<code>public/motion.js</code>、<code>public/icon.svg</code> 与 <code>public/app.js</code> 中磁盘分析相关的两处展示代码即可；业务逻辑未改动。</p>
+  </section>
+
+</div>
+
+<script>
+  // 说明页内的动效演示：与 public/motion.js 相同的做法
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var box = document.getElementById('typer');
+  var full = box.textContent;
+  function play() {
+    if (reduced) { box.textContent = full; return; }
+    var caret = document.createElement('i');
+    caret.className = 'mm-caret';
+    box.textContent = '';
+    box.appendChild(caret);
+    var i = 0;
+    var t = setInterval(function () {
+      i = Math.min(full.length, i + 1);
+      box.textContent = full.slice(0, i);
+      if (i < full.length) box.appendChild(caret); else clearInterval(t);
+    }, 120);
+  }
+  document.getElementById('replay').addEventListener('click', function () {
+    var b = document.querySelector('.ds-demo .mm-enter');
+    b.classList.remove('mm-enter'); void b.offsetWidth; b.classList.add('mm-enter');
+    play();
+  });
+  play();
+</script>
+</body>
+</html>

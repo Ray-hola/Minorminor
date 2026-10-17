@@ -1,0 +1,15 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+.runtime/
+.workbuddy/
+.codex/
+.claude/settings.local.json
+coverage/
+*.log
+*.pem
+*.key
+*.p12
+*.pfx

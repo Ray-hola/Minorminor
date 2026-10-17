@@ -1,0 +1,16 @@
+{
+  "name": "minorminor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A local-first macOS cleanup workspace built around Mole.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check server.mjs && node --check lib/scanner.mjs && node --check lib/cloud-directory.mjs && node --check lib/background-scan.mjs && node --check lib/scan-worker.mjs && node --check lib/synchronized-scan.mjs && node --check lib/synchronized-scan-worker.mjs && node --check lib/mole.mjs && node --check lib/cleanup.mjs && node --check lib/clean-plan.mjs && node --check lib/agent-catalog.mjs && node --check lib/agent-inventory.mjs && node --check lib/association-files.mjs && node --check lib/compressed-session.mjs && node --check lib/project-discovery.mjs && node --check lib/project-adapters.mjs && node --check lib/storage-purpose.mjs && node --check lib/project-analysis.mjs && node --check lib/project-storage.mjs && node --check lib/project-storage-worker.mjs && node --check lib/file-inspector.mjs && node --check lib/directory-sizes.mjs && node --check lib/directory-sizes-worker.mjs && node --check lib/harness-discovery.mjs && node --check lib/harness-analysis.mjs && node --check lib/agent-discovery.mjs && node --check lib/ai-storage.mjs && node --check lib/ai-advisor.mjs && node --check lib/ai-summary.mjs && bash -n scripts/check-clean-target.sh && node --check public/app.js && node --check public/motion.js"
+  }
+}
