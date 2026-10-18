@@ -5,7 +5,8 @@
   "version": "1.60.0",
   "license": "GPL-3.0",
   "copiedOn": "2026-10-16",
-  "method": "git clone --depth 1",
+  "method": "git submodule",
   "trackedFiles": 306,
-  "upstreamModified": false
+  "upstreamModified": false,
+  "path": "vendor/mole"
 }

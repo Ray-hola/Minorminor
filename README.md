@@ -6,10 +6,11 @@
   <a href="package.json"><img src="assets/readme/badges/version.svg" alt="开发预览 0.1.0" /></a>
   <a href="#开始使用"><img src="assets/readme/badges/macos.svg" alt="适用于 macOS" /></a>
   <a href="package.json"><img src="assets/readme/badges/node.svg" alt="需要 Node.js 22 或更新版本" /></a>
-  <a href="#上游与许可"><img src="assets/readme/badges/license.svg" alt="Minorminor 尚未指定许可证" /></a>
+  <a href="LICENSE"><img src="assets/readme/badges/license.svg" alt="Minorminor 许可证 GPL-3.0" /></a>
   <a href="https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE"><img src="assets/readme/badges/mole.svg" alt="Mole 引擎许可证 GPL-3.0" /></a>
 </p>
 <p align="center"><strong>简体中文</strong> · <a href="README.en.md">English</a></p>
+<p align="center">集成 <a href="https://github.com/tw93/Mole">Mole</a> 子模块 · 感谢 <a href="https://github.com/tw93">Tw93</a> 与贡献者</p>
 <p align="center"><a href="#开始使用">开始使用</a> · <a href="docs/usage.md">完整说明</a> · <a href="#开发">开发</a></p>
 
 ![项目清理：查看项目大小、缓存、日志、会话和记忆](assets/readme/project-cleanup.jpg)
@@ -23,6 +24,8 @@
 | **逐层查看** | 展开目录与文件，区分缓存、日志、会话、记忆与保留内容。 |
 | **按项目整理** | 勾选范围，审阅具体文件，确认处理，查看逐文件结果。 |
 | **可选 AI** | 根据元数据辅助判读，为你点选的文件或文件夹生成总结。 |
+
+**版本说明：** 当前 `main` 为 Minorminor **Web 版（Node.js 后端）**；Minorminor **Rust Application 版**是独立的桌面应用实现，其后端不包含在当前 `main` 中。
 
 ## 开始使用
 
@@ -74,6 +77,11 @@ npm test
 
 ## 上游与许可
 
-Mole 原样保存为固定版本子模块，来源见 [UPSTREAM.json](UPSTREAM.json)，沿用 [GPL-3.0](https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE)。Minorminor 与 Mole 官方应用无隶属关系。
+Minorminor 采用 [GNU GPL-3.0](LICENSE)（`GPL-3.0-only`）。内置 IBM Plex 字体保留 [SIL Open Font License 1.1](public/fonts/OFL.txt)。
 
-**Minorminor 新增代码尚未单独指定许可证**，公开源码不代表已授予自由复用许可；内置 IBM Plex 字体沿用 [SIL Open Font License 1.1](public/fonts/OFL.txt)。徽章展示实际授权与源码版本，不代表正式发行或 Apple 认证。
+本项目将 **Mole 作为 Git 子模块**引入 [`vendor/mole/`](https://github.com/tw93/Mole/tree/6650d0958282aa8052cd2bfeee15f67b17fe613b)，提供部分磁盘清理能力。
+
+- **Mole 项目网址：[https://github.com/tw93/Mole](https://github.com/tw93/Mole)**
+- 固定版本与来源：[UPSTREAM.json](UPSTREAM.json)；上游代码保持原样，保留其 [GPL-3.0 许可证](https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE)与版权声明。
+
+感谢作者 **[Tw93](https://github.com/tw93)** 和 **[Mole 的所有贡献者](https://github.com/tw93/Mole/graphs/contributors)**，为本项目提供开源清理工具与实现参考。

@@ -161,7 +161,9 @@ iCloud / File Provider 目录通过独立进程读取；连续 10 秒没有返�
 
 Mole 原生预览与界面的后台完整扫描分别用于识别清理候选和统计目录占用。可视化清理基于原生预览和单独生成的完整文件清单；全盘占用不作为删除依据。此版本不提供 Mole 的全部 TUI 功能，也没有实现卸载、管理员清理或原生维护执行。
 
-上游采用 **GNU GPL v3**，见 [Mole 许可证](https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE)。保留其版权与授权信息；新增 Web UI 尚未单独选择发布许可证。内置 IBM Plex 字体沿用 [SIL Open Font License 1.1](../public/fonts/OFL.txt)。当前为开发原型。Minorminor 与 Mole 官方应用无隶属关系。
+Minorminor 采用 **GNU GPL v3**（`GPL-3.0-only`），见根目录 [LICENSE](../LICENSE)。Mole 子模块保留其 [GPL-3.0 许可证](https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE)与版权信息。内置 IBM Plex 字体沿用 [SIL Open Font License 1.1](../public/fonts/OFL.txt)。
+
+Mole 项目网址：[https://github.com/tw93/Mole](https://github.com/tw93/Mole)。感谢作者 [Tw93](https://github.com/tw93) 与所有贡献者提供开源清理工具和实现参考。
 
 ## 隐私与边界
 

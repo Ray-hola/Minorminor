@@ -10,4 +10,4 @@ node assets/readme/demo.mjs
 
 打开 <http://127.0.0.1:4785/#projects>，搜索 Atlas。截取完整页头与项目分类，保存为 `project-cleanup.jpg`。在侧栏切换 English，以相同范围保存 `project-cleanup.en.jpg`。按 `Ctrl+C` 停止并删除本次示例数据。示例文件与运行记录均位于临时目录，Mole 命令与外部模型调用已关闭。
 
-`badges/` 为本地静态 SVG：源码版本与 Node.js 要求来自 `package.json`，macOS 定位来自本项目说明，Mole 许可来自 `UPSTREAM.json`；主项目许可尚未指定。修改这些事实时同步更新徽章与两个 README，不使用静态通过标记代替 CI 结果。
+`badges/` 为本地静态 SVG：源码版本与 Node.js 要求来自 `package.json`，macOS 定位来自本项目说明，主项目许可来自根目录 `LICENSE` 与 `package.json`，Mole 许可来自 `UPSTREAM.json` 与其子模块许可证。修改这些事实时同步更新徽章与两个 README，不使用静态通过标记代替 CI 结果。

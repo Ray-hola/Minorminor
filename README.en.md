@@ -6,10 +6,11 @@
   <a href="package.json"><img src="assets/readme/badges/version.svg" alt="Development preview 0.1.0" /></a>
   <a href="#get-started"><img src="assets/readme/badges/macos.svg" alt="For macOS" /></a>
   <a href="package.json"><img src="assets/readme/badges/node.svg" alt="Requires Node.js 22 or later" /></a>
-  <a href="#license"><img src="assets/readme/badges/license.svg" alt="Minorminor license not specified" /></a>
+  <a href="LICENSE"><img src="assets/readme/badges/license.svg" alt="Minorminor license GPL-3.0" /></a>
   <a href="https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE"><img src="assets/readme/badges/mole.svg" alt="Mole engine license GPL-3.0" /></a>
 </p>
 <p align="center"><a href="README.md">简体中文</a> · <strong>English</strong></p>
+<p align="center">Integrates the <a href="https://github.com/tw93/Mole">Mole</a> submodule · Thanks to <a href="https://github.com/tw93">Tw93</a> and contributors</p>
 <p align="center"><a href="#get-started">Get started</a> · <a href="docs/usage.md">Full guide (Chinese)</a> · <a href="#development">Development</a></p>
 
 ![Project cleanup: storage, caches, logs, sessions and memory](assets/readme/project-cleanup.en.jpg)
@@ -23,6 +24,8 @@
 | **Browse deeper** | Expand folders and files; distinguish caches, logs, sessions, memory and retained data. |
 | **Clean by project** | Select a scope, review individual files, confirm, then inspect per-file results. |
 | **Optional AI** | Analyze metadata or summarize a file or folder you explicitly select. |
+
+**Editions:** The current `main` contains Minorminor **Web (Node.js backend)**. Minorminor **Rust Application** is a separate desktop implementation; its backend is not included in the current `main`.
 
 ## Get started
 
@@ -72,8 +75,13 @@ npm test
 
 Tests use temporary fixtures. See the [development guide (Chinese)](docs/usage.md#修改与验证) for directory responsibilities. Report problems through [Issues](https://github.com/Ray-hola/Minorminor/issues).
 
-## License
+## License and acknowledgements
 
-Mole is included unchanged as a pinned submodule. See [UPSTREAM.json](UPSTREAM.json) and its [GPL-3.0 license](https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE). Minorminor is not affiliated with the official Mole application.
+Minorminor is licensed under [GNU GPL-3.0](LICENSE) (`GPL-3.0-only`). Bundled IBM Plex fonts retain the [SIL Open Font License 1.1](public/fonts/OFL.txt).
 
-**A separate license has not been selected for Minorminor's added code.** Public source does not itself grant permission for unrestricted reuse. Bundled IBM Plex fonts retain the [SIL Open Font License 1.1](public/fonts/OFL.txt). Badges describe the source version and actual licensing; they do not indicate a formal release or Apple certification.
+This project includes **Mole as a Git submodule** at [`vendor/mole/`](https://github.com/tw93/Mole/tree/6650d0958282aa8052cd2bfeee15f67b17fe613b), providing part of its disk cleanup functionality.
+
+- **Mole project: [https://github.com/tw93/Mole](https://github.com/tw93/Mole)**
+- Pinned version and provenance: [UPSTREAM.json](UPSTREAM.json). Upstream code is unchanged, with its [GPL-3.0 license](https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE) and copyright notices preserved.
+
+Thank you to **[Tw93](https://github.com/tw93)** and **[all Mole contributors](https://github.com/tw93/Mole/graphs/contributors)** for the open source cleanup tools and implementation reference that support this project.
