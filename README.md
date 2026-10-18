@@ -9,7 +9,7 @@
   <a href="LICENSE"><img src="assets/readme/badges/license.svg" alt="Minorminor 许可证 GPL-3.0" /></a>
   <a href="https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE"><img src="assets/readme/badges/mole.svg" alt="Mole 引擎许可证 GPL-3.0" /></a>
 </p>
-<p align="center"><strong>简体中文</strong> · <a href="README.en.md">English</a></p>
+<p align="center"><strong>简体中文</strong> · <a href="README.en.md">English</a> · <a href="https://github.com/Ray-hola/Minorminor-Rust">Rust Application 版</a></p>
 <p align="center">集成 <a href="https://github.com/tw93/Mole">Mole</a> 子模块 · 感谢 <a href="https://github.com/tw93">Tw93</a> 与贡献者</p>
 <p align="center"><a href="#开始使用">开始使用</a> · <a href="docs/usage.md">完整说明</a> · <a href="#开发">开发</a></p>
 
@@ -25,7 +25,7 @@
 | **按项目整理** | 勾选范围，审阅具体文件，确认处理，查看逐文件结果。 |
 | **可选 AI** | 根据元数据辅助判读，为你点选的文件或文件夹生成总结。 |
 
-**版本说明：** 当前 `main` 为 Minorminor **Web 版（Node.js 后端）**；Minorminor **Rust Application 版**是独立的桌面应用实现，其后端不包含在当前 `main` 中。
+**版本说明：** 本仓库独立维护 **Minorminor Web 版（Node.js 后端）**；[**Rust Application 版**](https://github.com/Ray-hola/Minorminor-Rust)在独立仓库维护，两个版本分别管理启动入口、接口、记录与版本。
 
 ## 开始使用
 

@@ -9,7 +9,7 @@
   <a href="LICENSE"><img src="assets/readme/badges/license.svg" alt="Minorminor license GPL-3.0" /></a>
   <a href="https://github.com/tw93/Mole/blob/6650d0958282aa8052cd2bfeee15f67b17fe613b/LICENSE"><img src="assets/readme/badges/mole.svg" alt="Mole engine license GPL-3.0" /></a>
 </p>
-<p align="center"><a href="README.md">简体中文</a> · <strong>English</strong></p>
+<p align="center"><a href="README.md">简体中文</a> · <strong>English</strong> · <a href="https://github.com/Ray-hola/Minorminor-Rust">Rust Application</a></p>
 <p align="center">Integrates the <a href="https://github.com/tw93/Mole">Mole</a> submodule · Thanks to <a href="https://github.com/tw93">Tw93</a> and contributors</p>
 <p align="center"><a href="#get-started">Get started</a> · <a href="docs/usage.md">Full guide (Chinese)</a> · <a href="#development">Development</a></p>
 
@@ -25,7 +25,7 @@
 | **Clean by project** | Select a scope, review individual files, confirm, then inspect per-file results. |
 | **Optional AI** | Analyze metadata or summarize a file or folder you explicitly select. |
 
-**Editions:** The current `main` contains Minorminor **Web (Node.js backend)**. Minorminor **Rust Application** is a separate desktop implementation; its backend is not included in the current `main`.
+**Editions:** This repository independently maintains Minorminor **Web (Node.js backend)**. The [**Rust Application**](https://github.com/Ray-hola/Minorminor-Rust) has its own repository, entry points, APIs, records and versions.
 
 ## Get started
 
