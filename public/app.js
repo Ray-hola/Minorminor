@@ -1,4 +1,4 @@
-import { tr, ui, getLocale, setLocale, languagePicker, restoreLocale } from './i18n.js';
+import { tr, ui, getLocale, languagePicker } from './i18n.js';
 const icons = {
   grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
   sparkle: '<path d="m12 3 2.6 6.4L21 12l-6.4 2.6L12 21l-2.6-6.4L3 12l6.4-2.6L12 3Z"/><path d="m20 2 .7 1.3L22 4l-1.3.7L20 6l-.7-1.3L18 4l1.3-.7L20 2Z"/>',
@@ -76,7 +76,7 @@ function render() {
   app.innerHTML = ui`<aside class="sidebar">
     <a class="brand" href="#overview"><img src="/icon.svg" width="34" height="34" alt=""/><span>minorminor<span class="brand-dot">.</span></span></a>
     <nav aria-label="主导航">${navItem('overview', 'grid')}${navItem('clean', 'sparkle')}${navItem('projects', 'layers')}${aiNavigation()}${navItem('analyze', 'disk')}</nav>
-    <div class="sidebar-bottom">${languagePicker()}<button class="nav-item setting-button" data-action="settings" aria-label="设置">${icon('settings', 18)}<span>设置</span></button><div class="sidebar-version">v0.2.0</div></div>
+    <div class="sidebar-bottom">${languagePicker()}<button class="nav-item setting-button" data-action="settings" aria-label="设置">${icon('settings', 18)}<span>设置</span></button><div class="sidebar-version">v0.1.0</div></div>
   </aside><div class="workspace ${actions ? 'has-cleanup-actions' : ''}">
   <main id="main">${state.error ? `<div class="error-banner" role="alert">${escape(state.error)} ${button('retry', tr('重新连接'), { kind: 'secondary' })}</div>` : ''}${page()}</main>
   ${actions}
@@ -662,7 +662,6 @@ async function bootstrap() {
   const generation = ++pollGeneration;
   try {
     const data = await api('bootstrap');
-    if (restoreLocale(data.preferences)) return;
     invalidateFileView(data.ai?.projectStorage?.id);
     if (state.cleanPlan?.id !== data.cleanPlan?.id) state.planSelected.clear();
     if (state.ai?.projectPlan?.id !== data.ai?.projectPlan?.id) state.projectPlanSelected.clear();
@@ -790,7 +789,7 @@ document.addEventListener('click', async event => {
       state.scan = null; render();
     }
     else if (action === 'retry') await bootstrap();
-    else if (action === 'settings') showDialog(ui`<div class="dialog-icon green"><img src="/icon.svg" width="44" height="44" alt=""/></div><h2 id="dialog-title">Minorminor <small>v0.2.0</small></h2><dl class="about-list"><div><dt>Mole 版本</dt><dd>${escape(state.mole?.version || tr('未就绪'))}</dd></div><div><dt>上游许可证</dt><dd>GPL-3.0</dd></div><div><dt>AI 状态</dt><dd>${state.ai?.config?.configured ? escape(state.ai.config.model) + tr(' · 已配置') : tr('模型尚未配置')}</dd></div><div><dt>运行方式</dt><dd>本地 Node.js 服务</dd></div></dl><div class="dialog-actions">${button('ai-config', tr('模型连接'), { kind: 'secondary' })}<a href="https://github.com/tw93/Mole" target="_blank" rel="noreferrer" class="btn secondary">上游源码 ${icon('external', 14)}</a>${button('close-dialog', tr('完成'))}</div>`);
+    else if (action === 'settings') showDialog(ui`<div class="dialog-icon green"><img src="/icon.svg" width="44" height="44" alt=""/></div><h2 id="dialog-title">Minorminor <small>v0.1.0</small></h2><dl class="about-list"><div><dt>Mole 版本</dt><dd>${escape(state.mole?.version || tr('未就绪'))}</dd></div><div><dt>上游许可证</dt><dd>GPL-3.0</dd></div><div><dt>AI 状态</dt><dd>${state.ai?.config?.configured ? escape(state.ai.config.model) + tr(' · 已配置') : tr('模型尚未配置')}</dd></div><div><dt>运行方式</dt><dd>本地 Node.js 服务</dd></div></dl><div class="dialog-actions">${button('ai-config', tr('模型连接'), { kind: 'secondary' })}<a href="https://github.com/tw93/Mole" target="_blank" rel="noreferrer" class="btn secondary">上游源码 ${icon('external', 14)}</a>${button('close-dialog', tr('完成'))}</div>`);
   } catch (error) { toast(tr(error.message)); if (action === 'confirm-clean') { target.disabled = false; target.innerHTML = ui`${icon('trash', 17)}确认移到废纸篓`; } if (['mole-confirm-clean', 'selection-confirm'].includes(action)) target.disabled = false; }
 });
 document.addEventListener('toggle', event => {

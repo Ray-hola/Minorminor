@@ -65,11 +65,6 @@ export function createApp({ home = os.homedir(), port = 4783, previewRunner = ru
   }).catch(error => { if (error.code !== 'ENOENT') console.error(`本地记录未能恢复：${error.message}`); }) : Promise.resolve();
   const aiConfigFile = path.join(runtimeDirectory, 'ai-settings.json');
   const configReady = persistState ? readFile(aiConfigFile, 'utf8').then(JSON.parse).then(saved => { aiConfig = validateAiConfig({ ...saved, apiKey: '', clearKey: true }); }).catch(() => {}) : Promise.resolve();
-  let preferences = {};
-  const preferencesFile = path.join(runtimeDirectory, 'preferences.json');
-  const preferencesReady = persistState ? readFile(preferencesFile, 'utf8').then(JSON.parse).then(saved => {
-    if (['zh-CN', 'en'].includes(saved?.locale)) preferences = { locale: saved.locale };
-  }).catch(() => {}) : Promise.resolve();
   const currentInventory = () => agentInventory(aiScan, cleanPlan, Date.now(), [...jobs.values()].reverse().find(row => row.type === 'mole' && row.mode === 'preview' && row.command === 'clean')?.id);
   const aiPublic = () => ({ config: publicAiConfig(aiConfig), scan: aiScan, inventory: currentInventory(), projects: publicProjects(projectAnalysis, aiScan), projectStorage: publicProjectStorage(projectStorage, projectAnalysis, aiScan), projectPlan: publicProjectPlan(projectTrashPlan), projectCleanup, advice: aiAdvice, modelCleanup });
   function currentFileBrowser(storageId) {
@@ -208,26 +203,13 @@ export function createApp({ home = os.homedir(), port = 4783, previewRunner = ru
     const url = new URL(request.url, `http://127.0.0.1:${currentPort}`);
     try {
       if (url.pathname.startsWith('/api/')) {
-        await ready; await configReady; await preferencesReady;
+        await ready; await configReady;
         if (request.method === 'POST') {
           const supplied = Buffer.from(String(request.headers['x-minorminor-token'] || ''));
           const expected = Buffer.from(token);
           if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected)) return json(response, 403, { error: '会话已过期，请刷新页面' });
         }
-        if (request.method === 'GET' && url.pathname === '/api/bootstrap') return json(response, 200, { token, preferences, disk: await diskStatus(home), mole: await metadata(), scopes: await scopes, scan: latestScan ? publicScan(latestScan) : null, analysis: latestAnalysis, cleanup: latestCleanup, cleanPlan: publicPlan(cleanPlan), ai: aiPublic(), synchronization, jobs: [...jobs.values()].map(publicJob) });
-        if (request.method === 'POST' && url.pathname === '/api/preferences') {
-          const body = await readJSON(request);
-          if (!['zh-CN', 'en'].includes(body.locale) || Object.keys(body).some(key => key !== 'locale')) return json(response, 400, { error: 'Unsupported preferences' });
-          const next = { locale: body.locale };
-          if (persistState) {
-            await mkdir(runtimeDirectory, { recursive: true, mode: 0o700 });
-            const temporary = preferencesFile + '.' + randomUUID() + '.tmp';
-            await writeFile(temporary, JSON.stringify(next), { mode: 0o600, flag: 'wx' });
-            await rename(temporary, preferencesFile);
-          }
-          preferences = next;
-          return json(response, 200, preferences);
-        }
+        if (request.method === 'GET' && url.pathname === '/api/bootstrap') return json(response, 200, { token, disk: await diskStatus(home), mole: await metadata(), scopes: await scopes, scan: latestScan ? publicScan(latestScan) : null, analysis: latestAnalysis, cleanup: latestCleanup, cleanPlan: publicPlan(cleanPlan), ai: aiPublic(), synchronization, jobs: [...jobs.values()].map(publicJob) });
         if (request.method === 'POST' && url.pathname === '/api/ai/summaries/prepare') {
           const body = await readJSON(request);
           if ([...jobs.values()].some(row => row.status === 'running')) throw new Error('请等待当前任务结束');
@@ -359,7 +341,6 @@ export function createApp({ home = os.homedir(), port = 4783, previewRunner = ru
             try {
               const result = await executeProjectTrashPlan(plan, selected, { guard: selectionGuard, personalGuard: personalFileGuard, cancelled: () => cancelled, onProgress: stats => { value.stats = stats; }, onRecord: async record => { await log.writeFile(JSON.stringify(record) + '\n'); await log.sync(); } });
               projectCleanup = { ...projectCleanup, ...result }; if (result.moved && selected.some(row => ['session', 'memory'].includes(row.kind))) projectAnalysis.stale = true;
-              await saveState();
               Object.assign(value, { status: result.status, finishedAt: result.createdAt, message: '项目整理结束，请查看逐文件记录' });
             } catch (error) { projectCleanup.status = 'unconfirmed'; projectCleanup.moved = null; projectCleanup.movedBytes = null; projectCleanup.skipped = null; projectCleanup.note = '任务未完整结束，请核对原路径、废纸篓和逐文件记录。' + error.message; Object.assign(value, { status: 'failed', finishedAt: new Date().toISOString(), error: projectCleanup.note }); }
             finally { await log.close().catch(() => {}); await saveState().catch(error => { value.persistenceWarning = error.message; }); }
@@ -804,7 +785,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
   const server = createApp({ port, persistState: true });
   server.on('error', error => { console.error(error.code === 'EADDRINUSE' ? `端口 ${port} 已被占用，可用 PORT=4784 npm start 换一个端口。` : error.message); process.exitCode = 1; });
   server.listen(port, '127.0.0.1', () => {
-    console.log(`\n  Minorminor  v0.2.0\n  http://127.0.0.1:${port}\n  本地运行 · Ctrl+C 停止\n`);
+    console.log(`\n  Minorminor  v0.1.0\n  http://127.0.0.1:${port}\n  本地运行 · Ctrl+C 停止\n`);
     if (process.argv.includes('--open') && process.platform === 'darwin') spawn('/usr/bin/open', [`http://127.0.0.1:${port}`], { stdio: 'ignore' }).on('error', () => {});
   });
   for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => { server.close(); server.closeAllConnections(); });

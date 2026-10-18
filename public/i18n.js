@@ -38,33 +38,15 @@ export function languagePicker() {
   return `<label class="language-picker"><span>${tr('语言')}</span><select data-language aria-label="${tr('语言')}">${languages.map(([id, label]) => `<option value="${id}"${id === locale ? ' selected' : ''}>${label}</option>`).join('')}</select></label>`;
 }
 
-export function restoreLocale(preferences) {
-  if (!supported(preferences?.locale) || preferences.locale === locale) return false;
-  setLocale(preferences.locale);
-  globalThis.location.reload();
-  return true;
-}
-
 if (globalThis.document) {
   document.documentElement.lang = locale;
   const loading = document.querySelector('.initial-loading p');
   if (loading) loading.textContent = tr('正在连接…');
-  document.addEventListener('change', async event => {
+  document.addEventListener('change', event => {
     const select = event.target.closest?.('[data-language]');
     if (!select || !supported(select.value)) return;
     event.stopImmediatePropagation();
-    select.disabled = true;
-    try {
-      const bootstrap = await fetch('/api/bootstrap', { cache: 'no-store' }).then(response => response.json());
-      const response = await fetch('/api/preferences', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Minorminor-Token': bootstrap.token }, body: JSON.stringify({ locale: select.value }) });
-      if (!response.ok) throw new Error((await response.json()).error || tr('保存失败'));
-      setLocale(select.value);
-      globalThis.location.reload();
-    } catch (error) {
-      select.disabled = false;
-      select.value = locale;
-      const toast = document.querySelector('#toast');
-      if (toast) { toast.textContent = error.message; toast.classList.add('show'); }
-    }
+    setLocale(select.value);
+    globalThis.location.reload();
   });
 }
